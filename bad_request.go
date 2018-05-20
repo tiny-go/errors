@@ -1,23 +1,14 @@
 package errors
 
-import (
-	"errors"
-	"net/http"
-)
+import "net/http"
 
 var _ Error = BadRequest{}
 
 // BadRequest is a 400 HTTP error.
-type BadRequest struct {
-	error
-}
+type BadRequest struct{ error }
 
 // Code returns HTTP staus code.
-func (e BadRequest) Code() int {
-	return http.StatusBadRequest
-}
+func (e BadRequest) Code() int { return http.StatusBadRequest }
 
 // NewBadRequest is a constructor func for 400 HTTP error.
-func NewBadRequest(cause string) BadRequest {
-	return BadRequest{errors.New(cause)}
-}
+func NewBadRequest(cause error) BadRequest { return BadRequest{cause} }
