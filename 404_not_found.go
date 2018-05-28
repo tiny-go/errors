@@ -7,7 +7,7 @@ var _ Error = NotFound{}
 // NotFound is a 404 HTTP error.
 type NotFound struct{ error }
 
-// Code returns HTTP staus code.
+// Code returns HTTP status code.
 func (e NotFound) Code() int { return http.StatusNotFound }
 
 // NewNotFound is a constructor func for 404 HTTP error.
