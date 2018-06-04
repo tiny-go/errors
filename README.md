@@ -21,6 +21,7 @@ Code | Corresponding error type
  401 | `Unauthorized`
  403 | `Forbidden`
  404 | `NotFound`
+ 405 | `MethodNotAllowed`
  500 | `InternalServer`
  501 | `NotImplemented`
 
