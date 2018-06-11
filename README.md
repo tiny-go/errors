@@ -22,6 +22,8 @@ Code | Corresponding error type
  403 | `Forbidden`
  404 | `NotFound`
  405 | `MethodNotAllowed`
+ 408 | `RequestTimeout`
+ 409 | `Conflict`
  500 | `InternalServer`
  501 | `NotImplemented`
 
