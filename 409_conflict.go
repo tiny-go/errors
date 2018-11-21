@@ -4,7 +4,7 @@ import "net/http"
 
 var _ Error = Conflict{}
 
-// Conflict is a 404 HTTP error.
+// Conflict is a 409 HTTP error.
 type Conflict struct{ error }
 
 // Code returns HTTP status code.
