@@ -39,8 +39,9 @@ func Send(w http.ResponseWriter, err interface{}) {
 		// retrieve status code and error message
 		http.Error(w, e.Error(), e.Code())
 	case error:
-		// all standard errors without codes will be sent as Internal Server Error
-		http.Error(w, e.Error(), http.StatusInternalServerError)
+		// all standard errors without codes will be sent as Internal Server Error,
+		// error message is not exposed
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	default:
 		// everything else
 		http.Error(w, fmt.Sprint(err), http.StatusInternalServerError)
