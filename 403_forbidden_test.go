@@ -1,24 +1,36 @@
-package errors
+package errors_test
 
 import (
-	"errors"
 	"net/http"
 	"testing"
+
+	"github.com/tiny-go/errors"
 )
 
 func TestNewForbidden(t *testing.T) {
-	t.Run("Check Forbidden status code", func(t *testing.T) {
-		var err error
-		err = NewForbidden(errors.New("Forbidden"))
-		typed, ok := err.(Forbidden)
-		if !ok {
-			t.Fatalf("error has invalid type: %T", err)
+	t.Run("NewForbidden", func(t *testing.T) {
+		err := errors.NewForbidden(errors.New("Forbidden"))
+
+		if err.Code() != http.StatusForbidden {
+			t.Errorf("error has invalid status code: %d", err.Code())
 		}
-		if typed.Code() != http.StatusForbidden {
-			t.Errorf("error has invalid status code: %d", typed.Code())
+
+		if err.Error() != "Forbidden" {
+			t.Errorf("error has invalid message: %q", err.Error())
 		}
-		if typed.Error() != "Forbidden" {
-			t.Errorf("error has invalid message: %q", typed.Error())
+	})
+}
+
+func TestForbiddenf(t *testing.T) {
+	t.Run("Forbiddenf", func(t *testing.T) {
+		err := errors.Forbiddenf("Forbidden: %d", http.StatusForbidden)
+
+		if err.Code() != http.StatusForbidden {
+			t.Errorf("error has invalid status code: %d", err.Code())
+		}
+
+		if err.Error() != "Forbidden: 403" {
+			t.Errorf("error has invalid message: %q", err.Error())
 		}
 	})
 }
