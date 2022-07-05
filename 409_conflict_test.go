@@ -1,24 +1,36 @@
-package errors
+package errors_test
 
 import (
-	"errors"
 	"net/http"
 	"testing"
+
+	"github.com/tiny-go/errors"
 )
 
 func TestNewConflict(t *testing.T) {
-	t.Run("Check Conflict status code", func(t *testing.T) {
-		var err error
-		err = NewConflict(errors.New("Conflict"))
-		typed, ok := err.(Conflict)
-		if !ok {
-			t.Fatalf("error has invalid type: %T", err)
+	t.Run("NewConflict", func(t *testing.T) {
+		err := errors.NewConflict(errors.New("Conflict"))
+
+		if err.Code() != http.StatusConflict {
+			t.Errorf("error has invalid status code: %d", err.Code())
 		}
-		if typed.Code() != http.StatusConflict {
-			t.Errorf("error has invalid status code: %d", typed.Code())
+
+		if err.Error() != "Conflict" {
+			t.Errorf("error has invalid message: %q", err.Error())
 		}
-		if typed.Error() != "Conflict" {
-			t.Errorf("error has invalid message: %q", typed.Error())
+	})
+}
+
+func TestConflictf(t *testing.T) {
+	t.Run("Conflictf", func(t *testing.T) {
+		err := errors.Conflictf("Conflict: %d", http.StatusConflict)
+
+		if err.Code() != http.StatusConflict {
+			t.Errorf("error has invalid status code: %d", err.Code())
+		}
+
+		if err.Error() != "Conflict: 409" {
+			t.Errorf("error has invalid message: %q", err.Error())
 		}
 	})
 }

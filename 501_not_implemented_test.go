@@ -1,24 +1,36 @@
-package errors
+package errors_test
 
 import (
-	"errors"
 	"net/http"
 	"testing"
+
+	"github.com/tiny-go/errors"
 )
 
 func TestNewNotImplemented(t *testing.T) {
-	t.Run("Check NotImplemented status code", func(t *testing.T) {
-		var err error
-		err = NewNotImplemented(errors.New("NotImplemented"))
-		typed, ok := err.(NotImplemented)
-		if !ok {
-			t.Fatalf("error has invalid type: %T", err)
+	t.Run("NewNotImplemented", func(t *testing.T) {
+		err := errors.NewNotImplemented(errors.New("NotImplemented"))
+
+		if err.Code() != http.StatusNotImplemented {
+			t.Errorf("error has invalid status code: %d", err.Code())
 		}
-		if typed.Code() != http.StatusNotImplemented {
-			t.Errorf("error has invalid status code: %d", typed.Code())
+
+		if err.Error() != "NotImplemented" {
+			t.Errorf("error has invalid message: %q", err.Error())
 		}
-		if typed.Error() != "NotImplemented" {
-			t.Errorf("error has invalid message: %q", typed.Error())
+	})
+}
+
+func TestNotImplementedf(t *testing.T) {
+	t.Run("NotImplemented", func(t *testing.T) {
+		err := errors.NotImplementedf("NotImplemented: %d", http.StatusNotImplemented)
+
+		if err.Code() != http.StatusNotImplemented {
+			t.Errorf("error has invalid status code: %d", err.Code())
+		}
+
+		if err.Error() != "NotImplemented: 501" {
+			t.Errorf("error has invalid message: %q", err.Error())
 		}
 	})
 }
