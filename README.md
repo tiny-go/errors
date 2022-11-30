@@ -27,6 +27,7 @@ Code | Corresponding error type
  409 | `Conflict`
  500 | `InternalServer`
  501 | `NotImplemented`
+ 503 | `ServiceUnavailable`
 
 [circleci-badge]: https://circleci.com/gh/tiny-go/errors.svg?style=shield
 [circleci-link]: https://circleci.com/gh/tiny-go/errors
